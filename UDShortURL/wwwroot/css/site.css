@@ -1,0 +1,307 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* C?n ch?nh layout toàn b? trang */
+html, body {
+    height: 100%; /* Chi?u cao t?i ?a toàn màn hình */
+    display: flex;
+    flex-direction: column; /* S?p x?p header, main, footer theo chi?u d?c */
+    font-family: Arial, sans-serif;
+    background-color: white;
+    scroll-behavior: smooth;
+}
+
+
+main {
+    flex: 1; /* Ph?n n?i dung s? giãn ra ?? ??y footer xu?ng d??i */
+}
+
+footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: white;
+    background-color: #262138;
+    width: 100%;
+    padding: 30px 0; /* Padding trên và d??i */
+}
+
+/* Header */
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 15px 0; /* C?n gi?a theo chi?u d?c */
+    background-color: white;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Gi?i h?n ?? r?ng header */
+    padding: 0 30px; /* Thêm padding hai bên */
+    box-sizing: border-box;
+}
+
+    .header-container nav ul {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+        margin: 0;
+        padding: 0;
+    }
+
+        .header-container nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+.app-description {
+    font-size: 16px;
+    color: #6c757d;
+    margin-left: 444px; /* ??y ch? v? phía cu?i cùng bên ph?i */
+}
+
+section {
+    padding: 100px 20px;
+    scroll-margin-top: 70px; /* Giúp cu?n không b? che m?t b?i header */
+}
+
+.brand-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #333; /* Tùy ch?nh màu ch? */
+    letter-spacing: 1px; /* Kho?ng cách gi?a các ch? */
+    margin-right: 40px;
+}
+
+/* Background Container */
+.background-container {
+    background-image: url('/images/peter-rovder-X_5kMOSxLzw-unsplash.jpg'); /* ?nh n?n */
+    background-size: cover;
+    background-position: center;
+    height: calc(120vh - 150px); /* Chi?u cao gi?m xu?ng */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px; /* Bo góc n?n */
+    margin: 10px auto 80px auto; /* Cách footer và bo ra kho?ng l? */
+    width: calc(100% - 80px); /* Chi?u r?ng thu nh? */
+    max-width: 1200px; /* Gi?i h?n chi?u r?ng, gi? t? l? v?i ch? "U" */
+    overflow: hidden; /* Tránh n?i dung tràn */
+}
+
+/* Form Container */
+.form-container {
+    padding: 40px 30px;
+    border-radius: 15px; /* Bo góc n?n form */
+    background-color: rgba(0, 0, 0, 0.0001); /* Trong su?t nh? */
+    text-align: center;
+    width: 100%;
+    max-width: 700px; /* Thu nh? form theo t? l? background */
+}
+
+    .form-container h2 {
+        font-size: 2.5rem;
+        color: white;
+        margin: 0 0 10px 0;
+        line-height: 1.2;
+        font-weight: 500;
+    }
+
+    .form-container h1 {
+        font-size: 1.5rem;
+        color: white;
+        margin: 0 0 8px 0;
+        line-height: 1.2;
+        /* font-weight: 600; */
+    }
+
+    .form-container p {
+        font-size: 0.8rem;
+        color: white;
+        margin: 0 50px 25px 0;
+        line-height: 1.4;
+    }
+
+/* Form Group */
+.form-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    margin-left: 70px;
+}
+
+.form-control {
+    flex-grow: 1;
+    padding: 12px 20px 12px 130px; /* D?ch placeholder sang ph?i */
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px 0 0 10px; /* Bo góc trái */
+    margin: 0;
+    height: 52px; /* Chi?u cao b?ng v?i nút */
+    box-sizing: border-box; /* ??m b?o padding không làm thay ??i kích th??c */
+}
+
+    .form-control::placeholder {
+        color: #aaa; /* Làm m? màu placeholder ?? d? phân bi?t */
+    }
+
+.input-container {
+    position: relative;
+    flex-grow: 1;
+}
+
+.fixed-text {
+    position: absolute;
+    left: 15px; /* Kho?ng cách t? vi?n trái */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #333;
+    pointer-events: none; /* Không c?n tr? vi?c nh?p li?u */
+    font-weight: bold;
+    z-index: 10; /* ??m b?o ch? c? ??nh n?i lên trên */
+}
+
+
+
+.btn-primary {
+    background-color: #4e4081;
+    color: white;
+    font-size: 1rem;
+    padding: 12px 30px; /* Gi?m padding ?? cân ??i chi?u cao */
+    border: 1px solid #4e4081;
+    border-left: none; /* Lo?i b? vi?n th?a */
+    border-radius: 0 10px 10px 0; /* Bo góc ph?i */
+    margin: 0;
+    height: 52px; /* C? ??nh chi?u cao b?ng v?i input */
+    display: flex;
+    align-items: center; /* C?n ch? d?c chính gi?a */
+    justify-content: center; /* C?n ch? ngang chính gi?a */
+}
+
+    .btn-primary:hover {
+        background-color: #3c3165;
+        border: none;
+    }
+
+/* Why Choose Section */
+.why-choose-section {
+    width: 100vw; /* Chi?u r?ng toàn màn hình */
+    margin-left: calc(50% - 50vw); /* C?n gi?a ?? tràn h?t màn hình */
+    background-color: #262138; /* Gi? màu n?n */
+    color: white;
+    padding: 100px 0; /* Padding trên và d??i */
+    box-sizing: border-box;
+}
+
+.why-choose-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    margin-left: 45px;
+}
+
+    .why-choose-title .highlight {
+        color: white; /* Màu ch? nh?n nhá nh? */
+    }
+
+.why-choose-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    text-align: justify; /* C?n ??u ?o?n v?n */
+    margin-left: 45px;
+    margin-right: 50px;
+}
+
+.image-placeholder img {
+    max-width: 100%; /* Chi?m toàn b? chi?u r?ng c?a c?t */
+    height: 300px; /* T? ?i?u ch?nh chi?u cao */
+    object-fit: contain; /* ??m b?o ?nh không b? méo */
+}
+
+/* Features Section */
+.features-section {
+    background-color: white; /* N?n tr?ng */
+    padding: 50px 20px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.features-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #333;
+    margin-bottom: 50px;
+}
+
+/* Card Container */
+.feature-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Feature Card */
+.feature-card {
+    background-color: white; /* N?n tr?ng */
+    border: 2px solid #262138; /* Vi?n màu tím ??m */
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    color: #262138; /* Màu ch? tím */
+    text-align: center;
+    cursor: pointer;
+}
+
+    .feature-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .feature-card p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    /* Hover Effect */
+    .feature-card:hover {
+        background-color: #262138; /* N?n tím khi hover */
+        color: white; /* Ch? tr?ng */
+        transform: translateY(-10px); /* N?i lên */
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    }
+
+        .feature-card:hover .feature-icon {
+            color: white; /* Màu icon tr?ng khi hover */
+        }
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    transition: color 0.3s ease-in-out; /* Hi?u ?ng ??i màu icon */
+    color: #262138; /* Icon màu tím m?c ??nh */
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: white;
+    background-color: #262138;
+    width: 100vw; /* Chi?u r?ng toàn màn hình */
+    margin-left: calc(50% - 50vw); /* C?n gi?a ?? tràn h?t màn hình */
+    box-sizing: border-box;
+    padding: 30px 0; /* Padding trên và d??i */
+}

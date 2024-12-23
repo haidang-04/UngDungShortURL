@@ -1,0 +1,642 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo URL Ngắn - UDShortURL</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons và Popover -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Căn chỉnh layout toàn bộ trang */
+        html, body {
+            height: 100%; /* Chiều cao tối đa toàn màn hình */
+            display: flex;
+            flex-direction: column; /* Sắp xếp header, main, footer theo chiều dọc */
+            font-family: Arial, sans-serif;
+            background-color: white;
+            scroll-behavior: smooth;
+        }
+
+
+        main {
+            flex: 1; /* Phần nội dung sẽ giãn ra để đẩy footer xuống dưới */
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: white;
+            background-color: #262138;
+            width: 100%;
+            padding: 30px 0; /* Padding trên và dưới */
+        }
+
+        /* Header */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0; /* Căn giữa theo chiều dọc */
+            background-color: white;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px; /* Giới hạn độ rộng header */
+            padding: 0 30px; /* Thêm padding hai bên */
+            box-sizing: border-box;
+        }
+
+            .header-container nav ul {
+                list-style: none;
+                display: flex;
+                gap: 30px;
+                margin: 0;
+                padding: 0;
+            }
+
+                .header-container nav ul li a {
+                    text-decoration: none;
+                    color: #333;
+                    font-weight: 500;
+                    transition: color 0.3s;
+                }
+
+        .app-description {
+            font-size: 16px;
+            color: #6c757d;
+            margin-left: 444px; /* Đẩy chữ về phía cuối cùng bên phải */
+        }
+
+        /* Vùng bao bọc dropdown */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Nút bấm dropdown */
+        .dropdown-btn {
+            background-color: #262138;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            border-radius: 4px;
+        }
+
+        /* Nội dung dropdown ẩn mặc định */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+            /* Liên kết trong dropdown */
+            .dropdown-content a {
+                color: black;
+                text-decoration: none;
+                display: block;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                text-align: center;
+            }
+
+                /* Hiệu ứng hover cho liên kết */
+                .dropdown-content a:hover {
+                    background-color: #3c3165;
+                    color: white;
+                }
+
+        /* Hiển thị dropdown khi hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Hiệu ứng hover cho nút dropdown */
+        .dropdown-btn:hover {
+            background-color: #4c4c7f;
+        }
+
+        section {
+            padding: 100px 20px;
+            scroll-margin-top: 70px; /* Giúp cuộn không bị che mất bởi header */
+        }
+
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: #333; /* Tùy chỉnh màu chữ */
+            letter-spacing: 1px; /* Khoảng cách giữa các chữ */
+            margin-right: 40px;
+        }
+
+        /* Background Container */
+        .background-container {
+            background-image: url('/images/peter-rovder-X_5kMOSxLzw-unsplash.jpg'); /* Ảnh nền */
+            background-size: cover;
+            background-position: center;
+            height: calc(120vh - 150px); /* Chiều cao giảm xuống */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px; /* Bo góc nền */
+            margin: 10px auto 80px auto; /* Cách footer và bo ra khoảng lề */
+            width: calc(100% - 80px); /* Chiều rộng thu nhỏ */
+            max-width: 1200px; /* Giới hạn chiều rộng, giữ tỷ lệ với chữ "U" */
+            overflow: hidden; /* Tránh nội dung tràn */
+        }
+
+        /* Form Container */
+        .form-container {
+            padding: 40px 30px;
+            border-radius: 15px; /* Bo góc nền form */
+            background-color: rgba(0, 0, 0, 0.0001); /* Trong suốt nhẹ */
+            text-align: center;
+            width: 100%;
+            max-width: 700px; /* Thu nhỏ form theo tỷ lệ background */
+        }
+
+            .form-container h2 {
+                font-size: 2.5rem;
+                color: white;
+                margin: 0 0 10px 0;
+                line-height: 1.2;
+                font-weight: 500;
+            }
+
+            .form-container h1 {
+                font-size: 1.5rem;
+                color: white;
+                margin: 0 0 8px 0;
+                line-height: 1.2;
+                /* font-weight: 600; */
+            }
+
+            .form-container p {
+                font-size: 0.8rem;
+                color: white;
+                margin: 0 50px 25px 0;
+                line-height: 1.4;
+            }
+
+        /* Form Group */
+        .form-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            margin-left: 70px;
+        }
+
+        .form-control {
+            flex-grow: 1;
+            padding: 12px 20px 12px 130px; /* Dịch placeholder sang phải */
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 10px 0 0 10px; /* Bo góc trái */
+            margin: 0;
+            height: 52px; /* Chiều cao bằng với nút */
+            box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+        }
+
+            .form-control::placeholder {
+                color: #aaa; /* Làm mờ màu placeholder để dễ phân biệt */
+            }
+
+        .input-container {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .fixed-text {
+            position: absolute;
+            left: 15px; /* Khoảng cách từ viền trái */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            color: #333;
+            pointer-events: none; /* Không cản trở việc nhập liệu */
+            font-weight: bold;
+            z-index: 10; /* Đảm bảo chữ cố định nổi lên trên */
+        }
+
+
+
+        .btn-primary {
+            background-color: #4e4081;
+            color: white;
+            font-size: 1rem;
+            padding: 12px 30px; /* Giảm padding để cân đối chiều cao */
+            border: 1px solid #4e4081;
+            border-left: none; /* Loại bỏ viền thừa */
+            border-radius: 0 10px 10px 0; /* Bo góc phải */
+            margin: 0;
+            height: 52px; /* Cố định chiều cao bằng với input */
+            display: flex;
+            align-items: center; /* Căn chữ dọc chính giữa */
+            justify-content: center; /* Căn chữ ngang chính giữa */
+        }
+
+            .btn-primary:hover {
+                background-color: #3c3165;
+                border: none;
+            }
+
+        /* Why Choose Section */
+        .why-choose-section {
+            width: 100vw; /* Chiều rộng toàn màn hình */
+            margin-left: calc(50% - 50vw); /* Căn giữa để tràn hết màn hình */
+            background-color: #262138; /* Giữ màu nền */
+            color: white;
+            padding: 100px 0; /* Padding trên và dưới */
+            box-sizing: border-box;
+        }
+
+        .why-choose-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            margin-left: 45px;
+        }
+
+            .why-choose-title .highlight {
+                color: white; /* Màu chữ nhấn nhá nhẹ */
+            }
+
+        .why-choose-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify; /* Căn đều đoạn văn */
+            margin-left: 45px;
+            margin-right: 50px;
+        }
+
+        .image-placeholder img {
+            max-width: 100%; /* Chiếm toàn bộ chiều rộng của cột */
+            height: 300px; /* Tự điều chỉnh chiều cao */
+            object-fit: contain; /* Đảm bảo ảnh không bị méo */
+        }
+
+        /* Features Section */
+        .features-section {
+            background-color: white; /* Nền trắng */
+            padding: 50px 20px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .features-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #333;
+            margin-bottom: 50px;
+        }
+
+        /* Card Container */
+        .feature-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Feature Card */
+        .feature-card {
+            background-color: white; /* Nền trắng */
+            border: 2px solid #262138; /* Viền màu tím đậm */
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            color: #262138; /* Màu chữ tím */
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .feature-card h3 {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+
+            .feature-card p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+
+            /* Hover Effect */
+            .feature-card:hover {
+                background-color: #262138; /* Nền tím khi hover */
+                color: white; /* Chữ trắng */
+                transform: translateY(-10px); /* Nổi lên */
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            }
+
+                .feature-card:hover .feature-icon {
+                    color: white; /* Màu icon trắng khi hover */
+                }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            transition: color 0.3s ease-in-out; /* Hiệu ứng đổi màu icon */
+            color: #262138; /* Icon màu tím mặc định */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+            color: white;
+            background-color: #262138;
+            width: 100vw; /* Chiều rộng toàn màn hình */
+            margin-left: calc(50% - 50vw); /* Căn giữa để tràn hết màn hình */
+            box-sizing: border-box;
+            padding: 30px 0; /* Padding trên và dưới */
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="header">
+            <header>
+                <div class="header-container">
+                    <!-- Tên nhãn -->
+                    <div class="brand-name">UDShortURL</div>
+                    <!-- Menu -->
+                    <nav>
+                        <ul>
+                            <li><a href="#why-section">Why UDShortURL?</a></li>
+                            <li><a href="#features-section">Features</a></li>
+                        </ul>
+                    </nav>
+                    <!-- Dòng mô tả -->
+                    <div class="app-description">
+                        <div class="dropdown">
+                            <button class="dropdown-btn" onclick="window.open('/DsShortUrl/Index1', '_blank');">
+                                Danh Sách Quản Lí
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <!-- Background Container -->
+        <div class="background-container">
+            <div class="form-container">
+                <h2>URL Shortener</h2>
+                <h1>Dán link dài của bạn để rút ngắn nó</h1>
+                <p>Hãy thoải mái rút ngắn URL hoặc giảm liên kết. Sử dụng URL Shortener của chúng tôi để tạo liên kết ngắn gọn và gọn gàng giúp bạn dễ nhớ</p>
+                <form method="post" action="/ShortURL/Create">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="longUrl"></label>
+                        <div class="input-container">
+                            <span class="fixed-text">localhost:5026/</span>
+                            <input type="url" class="form-control" id="longUrl" name="longUrl" placeholder="yourlink" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Tạo</button>
+
+                        <!-- Popover hiển thị thời gian tồn tại -->
+                        <div id="timePopover" class="popover-container" style="display: none; position: fixed; z-index: 10; width: 300px;">
+                            <div class="popover-content border shadow p-3 bg-white rounded">
+                                <h5 class="popover-header text-center fw-bold mb-3">Chọn thời gian tồn tại</h5>
+                                <div class="popover-body">
+                                    <form id="timeForm">
+                                        <div class="form-check">
+                                            <input type="radio" id="time1hour" name="timeOption" class="form-check-input" value="1hour">
+                                            <label for="time1hour" class="form-check-label">1 giờ</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" id="time1day" name="timeOption" class="form-check-input" value="1day">
+                                            <label for="time1day" class="form-check-label">1 ngày</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" id="time1week" name="timeOption" class="form-check-input" value="1week">
+                                            <label for="time1week" class="form-check-label">1 tuần</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" id="timeNever" name="timeOption" class="form-check-input" value="never">
+                                            <label for="timeNever" class="form-check-label">Không hết hạn</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" id="timeCustom" name="timeOption" class="form-check-input" value="custom">
+                                            <label for="timeCustom" class="form-check-label">Tùy chỉnh</label>
+                                        </div>
+                                        <div id="customTimeContainer" style="display: none;" class="mt-3">
+                                            <label for="customTime" class="form-label">Chọn thời gian tùy chỉnh:</label>
+                                            <input type="datetime-local" id="customTime" style="border-radius: 10px 10px 10px 10px; flex-grow: 1;" />
+                                        </div>
+                                        <button type="button" id="confirmButton" class="btn btn-success mt-3 w-100" style="background-color: #4e4081; text-decoration: none; color: white">OK</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thêm 2 Icon nhỏ -->
+                        <button type="button" id="copyIcon" class="btn btn-outline-secondary btn-sm ms-2" data-bs-toggle="tooltip" title="Sao chép URL" onclick="copyToClipboard()">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                        <button type="button" id="shareIcon" class="btn btn-outline-secondary btn-sm ms-2" data-bs-toggle="tooltip" title="Chia sẻ URL" onclick="shareUrl()">
+                            <i class="bi bi-share"></i>
+                        </button>
+                    </div>
+
+                    <!-- Hiển thị URL đã tồn tại -->
+                    @if (ViewBag.ExistingShortUrl != null)
+                    {
+                        <div class="alert alert-warning mt-2" style="background-color: rgba(0, 0, 0, 0.0001); color: white; border: none;">
+                            <strong style="color: white;">URL ngắn đã tồn tại:</strong>
+                            <a href="@ViewBag.ExistingShortUrl" target="_blank" style="color: #3355dd; text-decoration: none;">
+                                @ViewBag.ExistingShortUrl
+                            </a>
+                        </div>
+                    }
+
+                    <!-- Hiển thị URL ngắn đã tạo thành công -->
+                    @if (ViewBag.ShortUrl != null)
+                    {
+                        var splitUrl = ViewBag.ShortUrl.Split('/');
+                        var shortCode = splitUrl[splitUrl.Length - 1];
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                const shortCode = "@shortCode";
+                                document.getElementById("longUrl").value = shortCode;
+
+                                // Hàm sao chép URL vào clipboard
+                                window.copyToClipboard = function () {
+                                    const baseUrl = "http://localhost:5026/";
+                                    const shortUrl = document.getElementById("longUrl").value;
+                                    const fullUrl = baseUrl + shortUrl;
+                                    navigator.clipboard.writeText(fullUrl).catch(function (err) {
+                                        console.error("Không thể sao chép URL: ", err);
+                                    });
+                                };
+
+                                // Hàm chia sẻ URL
+                                window.shareUrl = function () {
+                                    const baseUrl = "http://localhost:5026/";
+                                    const shortUrl = document.getElementById("longUrl").value;
+                                    const fullUrl = baseUrl + shortUrl;
+                                    if (navigator.share) {
+                                        navigator.share({
+                                            title: 'Chia sẻ URL',
+                                            url: fullUrl
+                                        }).catch((error) => {
+                                            console.error('Có lỗi xảy ra khi chia sẻ: ', error);
+                                        });
+                                    } else {
+                                        alert("Trình duyệt của bạn không hỗ trợ tính năng chia sẻ.");
+                                    }
+                                };
+
+                                // Hiển thị Popover ngay sau khi tạo Shortlink
+                                const timePopover = document.getElementById("timePopover");
+                                const confirmButton = document.getElementById("confirmButton");
+
+                                function showPopover() {
+                                    timePopover.style.display = "block"; // Hiển thị popover trước để tính kích thước
+                                    requestAnimationFrame(() => {
+                                        timePopover.style.top = `${window.innerHeight / 2 - timePopover.offsetHeight / 2}px`;
+                                        timePopover.style.left = `${window.innerWidth / 2 - timePopover.offsetWidth / 2}px`;
+                                    });
+                                }
+
+                                function hidePopover() {
+                                    timePopover.style.display = "none";
+                                }
+
+                                showPopover();
+
+                                confirmButton.addEventListener("click", function () {
+                                    const selectedTime = document.querySelector('input[name="timeOption"]:checked');
+                                    if (selectedTime.value === "custom") {
+                                        const customTime = document.getElementById("customTime").value;
+                                        if (!customTime) {
+                                            alert("Vui lòng chọn thời gian tùy chỉnh!");
+                                            return;
+                                        }
+                                    } 
+                                    hidePopover();
+                                });
+
+                                // Xử lý hiển thị input tùy chỉnh
+                                const customTimeOption = document.getElementById("timeCustom");
+                                const customTimeContainer = document.getElementById("customTimeContainer");
+                                document.querySelectorAll('input[name="timeOption"]').forEach(input => {
+                                    input.addEventListener("change", function () {
+                                        customTimeContainer.style.display = customTimeOption.checked ? "block" : "none";
+                                    });
+                                });
+                            });
+                        </script>
+                    }
+                </form>
+            </div>
+        </div>
+
+        <!-- Why Choose Section -->
+        <div class="why-choose-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- Left Side: Content -->
+                    <div class="col-md-6">
+                        <section id="why-section">
+                            <h2 class="why-choose-title">Why <span class="highlight brand-name">UDShortURL?</span></h2>
+                            <p class="why-choose-text">
+                                UDShortURL giúp bạn dễ dàng rút ngắn và quản lý các đường dẫn dài một cách nhanh chóng, hiệu quả và tiện lợi.
+                                Không chỉ vậy, dịch vụ của chúng tôi còn giúp bạn tiết kiệm thời gian khi chia sẻ các liên kết trên mạng xã hội,
+                                email hoặc các nền tảng khác. Với giao diện thân thiện, dễ sử dụng và tốc độ xử lý cực kỳ nhanh chóng, bạn chỉ
+                                mất vài giây để có ngay một URL ngắn gọn, đơn giản và chuyên nghiệp. Điều này đặc biệt hữu ích khi bạn cần chia
+                                sẻ các liên kết dài dòng trong công việc, học tập hay quảng bá sản phẩm và dịch vụ. Hãy trải nghiệm dịch vụ rút
+                                ngắn liên kết mạnh mẽ, an toàn và đáng tin cậy của chúng tôi để nâng cao hiệu suất công việc và giữ cho các đường
+                                dẫn của bạn luôn gọn gàng, dễ nhớ và thuận tiện hơn bao giờ hết.
+                            </p>
+                        </section>
+                    </div>
+
+                    <!-- Right Side: Image -->
+                    <div class="col-md-6">
+                        <div class="image-placeholder">
+                            <img src="/images/peter-rovder-X_5kMOSxLzw-unsplash.jpg" alt="Why Choose UDShortURL" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <section id="features-section">
+                <h2 class="features-title">Features - Chúng Tôi Cung Cấp Những Gì?</h2>
+                <div class="feature-cards">
+                    <!-- Card 1: Shorten URLs -->
+                    <div class="feature-card">
+                        <div class="feature-icon">🔗</div>
+                        <h3>Rút ngắn các URL</h3>
+                        <p>Chức năng này cho phép bạn rút ngắn những liên kết dài thành các liên kết ngắn hơn, dễ nhớ và chia sẻ hơn.</p>
+                    </div>
+
+                    <!-- Card 2: Create secure links -->
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Tạo ra các liên kết an toàn và đáng tin cậy</h3>
+                        <p>Chức năng này giúp bạn tạo ra các liên kết được mã hóa, đảm bảo tính bảo mật và ổn định khi người dùng truy cập.</p>
+                    </div>
+
+                    <!-- Card 3: Manage URLs -->
+                    <div class="feature-card">
+                        <div class="feature-icon">⚙️</div>
+                        <h3>Quản lý các URL</h3>
+                        <p>Chức năng này cho phép bạn quản lý, theo dõi và tùy chỉnh các liên kết mà bạn đã tạo.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 - UDShortURL. All rights reserved.
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Cuộn mượt đến section
+            const links = document.querySelectorAll("a[href^='#']");
+            links.forEach(link => {
+                link.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute("href").substring(1);
+                    const targetSection = document.getElementById(targetId);
+
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 70,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

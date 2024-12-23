@@ -1,0 +1,343 @@
+﻿@model IEnumerable<UDShortURL.Models.DsShortUrl>
+
+@{
+    int currentPage = ViewData["CurrentPage"] != null ? (int)ViewData["CurrentPage"] : 1;
+    int totalPages = ViewData["TotalPages"] != null ? (int)ViewData["TotalPages"] : 1;
+}
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<style>
+    html, body {
+        height: 100%; /* Đảm bảo chiếm toàn bộ chiều cao màn hình */
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #1F2739; /* Màu nền tối */
+        color: #A7A1AE;
+        overflow-x: hidden; /* Loại bỏ cuộn ngang nếu có */
+    }
+
+    body {
+        display: flex;
+
+        flex-direction: column;
+        min-height: 100vh; /* Chiều cao tối thiểu là 100% chiều cao màn hình */
+        background-size: cover; /* Đảm bảo nền bao phủ toàn bộ */
+        background-attachment: fixed; /* Giữ cố định nền khi cuộn */
+    }
+    /* Tiêu đề trang */
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+        color: #4DC3FA; /* Màu vàng nổi bật cho tiêu đề */
+        font-weight: 700;
+    }
+
+    /* Nút Tạo URL ngắn */
+    .btn-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+        .btn-container .btn-primary {
+            background-color: #3498db; /* Xanh dương */
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .btn-container .btn-primary:hover {
+                background-color: #2980b9; /* Màu khi hover */
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+    /* Bảng */
+    table {
+        width: 90%;
+        border-collapse: separate; /* Thay đổi từ collapse sang separate để có khoảng hở */
+        margin: 20px auto;
+        background-color: #1F2739; /* Màu nền của bảng trùng với màu nền của trang */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        overflow: hidden;
+        border-spacing: 1.5px; /* Khoảng cách giữa các ô nhỏ lại giống như một đường viền */
+    }
+
+    /* Các ô trong bảng */
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        color: #F1F1F1; /* Màu chữ sáng cho nội dung */
+        transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+        /* Màu chữ của URL khi hover (chỉ thay đổi khi hover trên URL) */
+        td a:hover {
+            color: #4DC3FA; /* Màu sắc nổi bật khi hover */
+            text-decoration: underline; /* Gạch chân khi hover */
+        }
+
+    /* Hiệu ứng hover trên toàn hàng, chỉ thay đổi màu cho URL */
+    tr:hover td:nth-child(1) a, /* URL dài */
+    tr:hover td:nth-child(2) a { /* URL ngắn */
+        color: #4DC3FA; /* Màu sắc nổi bật khi hover */
+        text-decoration: underline; /* Gạch chân khi hover */
+    }
+
+    /* Các ô tiêu đề (th) có màu nền trùng với màu nền body */
+    th {
+        background-color: #1F2739; /* Màu nền của các ô tiêu đề trùng với màu nền của body */
+        color: #A7A1AE; /* Màu chữ sáng hơn cho tiêu đề */
+    }
+
+        /* Các hiệu ứng hover */
+        th:hover, td:hover {
+            background-color: #000066; /* Màu nền thay đổi khi hover */
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hiệu ứng hover trên th và td */
+        th:hover, td:hover {
+            background-color: #006699; /* Màu nền thay đổi khi hover */
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng đổ bóng */
+        }
+
+    /* Bảng điều chỉnh hover thêm vào hàng */
+    tr:nth-child(even):hover td {
+        background-color: #000066; /* Màu nền khi hover vào hàng chẵn */
+        transform: translate3d(6px, -6px, 0);
+        transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+        transition-timing-function: line;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Thêm bóng khi hover */
+    }
+
+    tr:nth-child(odd):hover td {
+        background-color: #336666; /* Màu nền khi hover vào hàng lẻ */
+        transform: translate3d(6px, -6px, 0);
+        transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+        transition-timing-function: line;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    /* Nút Tạo URL ngắn */
+    .btn-container .btn-primary {
+        background-color: #3498db; /* Màu xanh dương */
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 0 10px;
+        width: 90%; /* Chiều rộng bằng 90% chiều rộng của bảng */
+        display: block; /* Đảm bảo nút là một khối và căn giữa */
+        margin-left: auto;
+        margin-right: auto;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        /* Hiệu ứng hover cho nút */
+        .btn-container .btn-primary:hover {
+            background-color: #2980b9; /* Màu khi hover */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+
+    /* Hiệu ứng hover trên hàng */
+    tr:hover {
+        background-color: #444444;
+        cursor: pointer;
+    }
+
+    /* Màu nền cho hàng chẵn và lẻ */
+    .container tr:nth-child(odd) {
+        background-color: #323C50; /* Màu nền cho hàng chẵn */
+    }
+
+    .container tr:nth-child(even) {
+        background-color: #2C3446; /* Màu nền cho hàng lẻ */
+    }
+
+    /* Các nút hành động */
+    .action-btns a {
+        padding: 8px 15px;
+        margin: 5px 0;
+        border-radius: 8px;
+        text-decoration: none;
+        color: white;
+        transition: transform 0.2s ease, background-color 0.3s ease;
+        display: inline-block;
+        margin: 5px;
+    }
+
+    /* Khi hover vào hàng, các nút hành động xếp dọc */
+    tr:hover .action-btns a {
+        display: block;
+        margin: 5px 0;
+        text-align: center;
+        background-color: #555;
+    }
+
+    /* Màu nền của các nút hành động */
+    .action-btns a.view {
+        background-color: #007bff;
+    }
+
+    .action-btns a.delete {
+        background-color: #dc3545;
+    }
+
+    .action-btns a:hover {
+        transform: scale(1.1);
+    }
+
+    /* Phân trang */
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .pagination a {
+            padding: 8px 16px;
+            margin: 0 5px;
+            text-decoration: none;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+    .pagination a:hover {
+                background-color: #555;
+            }
+
+    .pagination .disabled {
+            color: #888;
+        }
+
+    /* Nút quay lại */
+    .btn-secondary {
+        display: block;
+        margin-top: 20px;
+        width: 200px;
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+        margin: 30px auto;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    /* Nút Details */
+    .btn-details {
+        background-color: #007bff; /* Màu xanh dương */
+        color: white;
+    }
+
+        .btn-details:hover {
+            background-color: #0056b3; /* Màu xanh dương đậm khi hover */
+        }
+
+    /* Nút Delete */
+    .btn-delete {
+        background-color: #dc3545; /* Màu đỏ */
+        color: white;
+    }
+
+        .btn-delete:hover {
+            background-color: #c82333; /* Màu đỏ đậm khi hover */
+        }
+
+</style>
+
+<h1>Danh sách URL đã rút ngắn</h1>
+
+<div class="btn-container">
+    <a asp-controller="ShortUrl" asp-action="TrangTao" class="btn btn-primary">Tạo URL ngắn</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LongUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortUrl1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiredTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RedirectCount)
+            </th>
+
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><a href="@item.LongUrl" target="_blank">@Html.DisplayFor(modelItem => item.LongUrl)</a></td>
+                <td><a href="@item.ShortUrl1" target="_blank">@Html.DisplayFor(modelItem => item.ShortUrl1)</a></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiredTime)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.RedirectCount)</td>
+                <td class="action-btns">
+                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-details">
+                        <i class="fas fa-eye"></i> 
+                    </a>
+                    <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-delete">
+                        <i class="fas fa-trash-alt"></i> 
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination">
+    @if (currentPage > 1)
+    {
+        <a href="@Url.Action("Index1", new { page = currentPage - 1 })">&laquo; Trước</a>
+    }
+    else
+    {
+        <span class="disabled">&laquo; Trước</span>
+    }
+
+    @for (int i = 1; i <= totalPages; i++)
+    {
+        <a href="@Url.Action("Index1", new { page = i })" class="@((i == currentPage) ? "disabled" : "")">@i</a>
+    }
+
+    @if (currentPage < totalPages)
+    {
+        <a href="@Url.Action("Index1", new { page = currentPage + 1 })">Tiếp &raquo;</a>
+    }
+    else
+    {
+        <span class="disabled">Tiếp &raquo;</span>
+    }
+</div>
