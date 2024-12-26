@@ -1,0 +1,94 @@
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Thay đổi font chữ */
+    margin: 0; /* Loại bỏ margin mặc định của body */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: rgb(31, 39, 57); /* Màu nền xám nhạt */
+    background-size: cover; /* Đảm bảo nền bao phủ toàn bộ */
+    background-attachment: fixed; /* Giữ cố định nền khi cuộn */
+    color: #333; /* Màu chữ xám đậm */
+}
+
+h1, h3 {
+    text-align: center;
+    color: #007bff;
+    font-family: "Dancing Script", cursive;
+    font-size: 36px;
+}
+
+/* CSS cho nút "Quay lại danh sách" và nút xóa */
+.btn-list, .btn-delete {
+    display: inline-block;
+    margin: auto;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #fff;
+    background-color: #007bff; /* Màu xanh nước biển cho nút */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    clip-path: polygon(0% 50%, 10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%); /* Tạo hình dạng cho nút, với đầu nhọn như mũi tên */
+    -webkit-appearance: none; /* Loại bỏ style mặc định của button trên Safari */
+    -moz-appearance: none; /* Loại bỏ style mặc định của button trên Firefox */
+    appearance: none; /* Loại bỏ style mặc định của button */
+}
+
+
+    .btn-list:hover, .btn-delete:hover {
+        background-color: #0069d9; /* Màu xanh nước biển đậm hơn khi hover */
+    }
+
+.button-container {
+    text-align: center;
+}
+
+/* CSS cho bảng */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    word-wrap: break-word;
+    font-size: 16px;
+    color: #007bff;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+/* CSS cho header */
+header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #0069d9;
+}
+
+    header h2 {
+        margin: 0;
+        font-size: 30px;
+        font-family: "Bungee Inline", cursive;
+    }
+/* CSS cho container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

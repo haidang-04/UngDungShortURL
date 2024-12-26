@@ -4,9 +4,9 @@
     box-sizing: border-box;
 }
 
-/* C?n ch?nh layout toàn b? trang */
+/* Cãn ch?nh layout toàn b? trang */
 html, body {
-    height: 100%; /* Chi?u cao t?i ?a toàn màn hình */
+    height: 100%; /* Chi?u cao t?i ða toàn màn h?nh */
     display: flex;
     flex-direction: column; /* S?p x?p header, main, footer theo chi?u d?c */
     font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@ html, body {
 
 
 main {
-    flex: 1; /* Ph?n n?i dung s? giãn ra ?? ??y footer xu?ng d??i */
+    flex: 1; /* Ph?n n?i dung s? gi?n ra ð? ð?y footer xu?ng dý?i */
 }
 
 footer {
@@ -25,7 +25,7 @@ footer {
     color: white;
     background-color: #262138;
     width: 100%;
-    padding: 30px 0; /* Padding trên và d??i */
+    padding: 30px 0; /* Padding trên và dý?i */
 }
 
 /* Header */
@@ -33,7 +33,7 @@ footer {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 15px 0; /* C?n gi?a theo chi?u d?c */
+    padding: 15px 0; /* Cãn gi?a theo chi?u d?c */
     background-color: white;
 }
 
@@ -42,7 +42,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 1200px; /* Gi?i h?n ?? r?ng header */
+    max-width: 1200px; /* Gi?i h?n ð? r?ng header */
     padding: 0 30px; /* Thêm padding hai bên */
     box-sizing: border-box;
 }
@@ -65,7 +65,60 @@ footer {
 .app-description {
     font-size: 16px;
     color: #6c757d;
-    margin-left: 444px; /* ??y ch? v? phía cu?i cùng bên ph?i */
+    margin-left: 444px; /* Ð?y ch? v? phía cu?i cùng bên ph?i */
+}
+
+/* Vùng bao b?c dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Nút b?m dropdown */
+.dropdown-btn {
+    background-color: #262138;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+/* N?i dung dropdown ?n m?c ð?nh */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+    /* Liên k?t trong dropdown */
+    .dropdown-content a {
+        color: black;
+        text-decoration: none;
+        display: block;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+        /* Hi?u ?ng hover cho liên k?t */
+        .dropdown-content a:hover {
+            background-color: #3c3165;
+            color: white;
+        }
+
+/* Hi?n th? dropdown khi hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Hi?u ?ng hover cho nút dropdown */
+.dropdown-btn:hover {
+    background-color: #4c4c7f;
 }
 
 section {
@@ -148,11 +201,11 @@ section {
     border-radius: 10px 0 0 10px; /* Bo góc trái */
     margin: 0;
     height: 52px; /* Chi?u cao b?ng v?i nút */
-    box-sizing: border-box; /* ??m b?o padding không làm thay ??i kích th??c */
+    box-sizing: border-box; /* Ð?m b?o padding không làm thay ð?i kích thý?c */
 }
 
     .form-control::placeholder {
-        color: #aaa; /* Làm m? màu placeholder ?? d? phân bi?t */
+        color: #aaa; /* Làm m? màu placeholder ð? d? phân bi?t */
     }
 
 .input-container {
@@ -169,7 +222,7 @@ section {
     color: #333;
     pointer-events: none; /* Không c?n tr? vi?c nh?p li?u */
     font-weight: bold;
-    z-index: 10; /* ??m b?o ch? c? ??nh n?i lên trên */
+    z-index: 10; /* Ð?m b?o ch? c? ð?nh n?i lên trên */
 }
 
 
@@ -178,15 +231,15 @@ section {
     background-color: #4e4081;
     color: white;
     font-size: 1rem;
-    padding: 12px 30px; /* Gi?m padding ?? cân ??i chi?u cao */
+    padding: 12px 30px; /* Gi?m padding ð? cân ð?i chi?u cao */
     border: 1px solid #4e4081;
     border-left: none; /* Lo?i b? vi?n th?a */
     border-radius: 0 10px 10px 0; /* Bo góc ph?i */
     margin: 0;
-    height: 52px; /* C? ??nh chi?u cao b?ng v?i input */
+    height: 52px; /* C? ð?nh chi?u cao b?ng v?i input */
     display: flex;
-    align-items: center; /* C?n ch? d?c chính gi?a */
-    justify-content: center; /* C?n ch? ngang chính gi?a */
+    align-items: center; /* Cãn ch? d?c chính gi?a */
+    justify-content: center; /* Cãn ch? ngang chính gi?a */
 }
 
     .btn-primary:hover {
@@ -196,11 +249,11 @@ section {
 
 /* Why Choose Section */
 .why-choose-section {
-    width: 100vw; /* Chi?u r?ng toàn màn hình */
-    margin-left: calc(50% - 50vw); /* C?n gi?a ?? tràn h?t màn hình */
+    width: 100vw; /* Chi?u r?ng toàn màn h?nh */
+    margin-left: calc(50% - 50vw); /* Cãn gi?a ð? tràn h?t màn h?nh */
     background-color: #262138; /* Gi? màu n?n */
     color: white;
-    padding: 100px 0; /* Padding trên và d??i */
+    padding: 100px 0; /* Padding trên và dý?i */
     box-sizing: border-box;
 }
 
@@ -219,15 +272,15 @@ section {
     font-size: 0.9rem;
     line-height: 1.6;
     margin-bottom: 15px;
-    text-align: justify; /* C?n ??u ?o?n v?n */
+    text-align: justify; /* Cãn ð?u ðo?n vãn */
     margin-left: 45px;
     margin-right: 50px;
 }
 
 .image-placeholder img {
     max-width: 100%; /* Chi?m toàn b? chi?u r?ng c?a c?t */
-    height: 300px; /* T? ?i?u ch?nh chi?u cao */
-    object-fit: contain; /* ??m b?o ?nh không b? méo */
+    height: 300px; /* T? ði?u ch?nh chi?u cao */
+    object-fit: contain; /* Ð?m b?o ?nh không b? méo */
 }
 
 /* Features Section */
@@ -255,7 +308,7 @@ section {
 /* Feature Card */
 .feature-card {
     background-color: white; /* N?n tr?ng */
-    border: 2px solid #262138; /* Vi?n màu tím ??m */
+    border: 2px solid #262138; /* Vi?n màu tím ð?m */
     padding: 20px;
     width: 300px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -290,8 +343,8 @@ section {
 .feature-icon {
     font-size: 2.5rem;
     margin-bottom: 15px;
-    transition: color 0.3s ease-in-out; /* Hi?u ?ng ??i màu icon */
-    color: #262138; /* Icon màu tím m?c ??nh */
+    transition: color 0.3s ease-in-out; /* Hi?u ?ng ð?i màu icon */
+    color: #262138; /* Icon màu tím m?c ð?nh */
 }
 
 footer {
@@ -300,8 +353,8 @@ footer {
     font-size: 0.9rem;
     color: white;
     background-color: #262138;
-    width: 100vw; /* Chi?u r?ng toàn màn hình */
-    margin-left: calc(50% - 50vw); /* C?n gi?a ?? tràn h?t màn hình */
+    width: 100vw; /* Chi?u r?ng toàn màn h?nh */
+    margin-left: calc(50% - 50vw); /* Cãn gi?a ð? tràn h?t màn h?nh */
     box-sizing: border-box;
-    padding: 30px 0; /* Padding trên và d??i */
+    padding: 30px 0; /* Padding trên và dý?i */
 }

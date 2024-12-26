@@ -1,0 +1,88 @@
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Thay đổi font chữ */
+    margin: 0; /* Loại bỏ margin mặc định của body */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: rgb(31, 39, 57); /* Màu nền xám nhạt */
+    background-size: cover; /* Đảm bảo nền bao phủ toàn bộ */
+    background-attachment: fixed; /* Giữ cố định nền khi cuộn */
+    color: #333; /* Màu chữ xám đậm */
+}
+
+/* CSS cho nút "Quay lại" */
+.btn-list {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 20px; /* Điều chỉnh kích thước chữ cho nút */
+    color: #fff;
+    background-color: #007bff; /* Màu xanh nước biển cho nút */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    clip-path: polygon(0% 50%, 10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%); /* Tạo hình dạng cho nút, với đầu nhọn như mũi tên */
+}
+
+    .btn-list:hover {
+        background-color: #0069d9; /* Màu xanh nước biển đậm hơn khi hover */
+    }
+
+.button-container {
+    text-align: center;
+}
+/* CSS cho bảng */
+table {
+    width: 90%; /* Điều chỉnh độ rộng của bảng */
+    margin: 20px auto; /* Căn giữa bảng */
+    border-collapse: collapse; /* Gộp đường viền của các ô */
+    table-layout: fixed; /* Bảng sẽ căn chỉnh theo độ rộng cố định của cột */
+}
+
+th, td {
+    border: 1px solid #ddd; /* Thêm viền cho các ô */
+
+    padding: 10px;
+    text-align: left;
+    word-wrap: break-word; /* Cho phép xuống dòng trong ô */
+
+    font-size: 16px; /* Điều chỉnh kích thước chữ cho bảng */
+
+    color: #007bff; /* Màu xanh nước biển cho chữ trong bảng */
+}
+
+th {
+    background-color: #f0f0f0; /* Màu nền cho tiêu đề cột */
+}
+
+/* CSS cho header */
+header {
+    background-color: #007bff; /* Màu xanh nước biển cho header */
+
+    color: #fff; /* Màu chữ trắng */
+
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #0069d9; /* Thêm đường viền dưới */
+}
+
+    /* Style cho tiêu đề trong header */
+    header h2 {
+        margin: 0;
+        font-size: 30px; /* Điều chỉnh kích thước chữ cho tiêu đề header */
+        font-family: "Bungee Inline", cursive; /* Sử dụng font chữ Bungee Inline cho tiêu đề header */
+    }
+
+/* CSS cho container */
+.container {
+    max-width: 800px; /* Giới hạn chiều rộng tối đa của container */
+    margin: 0 auto; /* Căn giữa container */
+    padding: 20px;
+    background-color: #fff; /* Màu nền trắng cho container */
+    border: 1px solid #ddd; /* Thêm viền cho container */
+    border-radius: 5px; /* Bo tròn góc cho container */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng đổ bóng */
+}
